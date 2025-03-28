@@ -1,0 +1,1 @@
+The directory should NOT be deleted, it is needed so that next does not try to read the src/pages directory as a route.
