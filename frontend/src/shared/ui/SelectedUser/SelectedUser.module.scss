@@ -1,0 +1,19 @@
+.selected {
+    width: calc(100vw - 300px);
+    background-color: #FCDCF1;
+    &__header {
+        background-color: #ffffff;
+        display: flex;
+        height: 50px;
+        line-height: 50px;
+    }
+    &__message {
+        background-color: #ffffff;
+        height: fit-content;
+        padding: 10px 15px;
+        border-radius: 5px;
+        width: fit-content;
+        margin: 10px;
+
+    }
+}
