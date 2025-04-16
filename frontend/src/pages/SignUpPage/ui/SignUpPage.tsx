@@ -62,7 +62,7 @@ function SignUpPage() {
         const data: ISignUp = user;
         await axios.post('/users/auth/create', data)
             .then(() => {
-                router.replace(ROUTES.message.main);
+                router.replace(ROUTES.auth.signin);
             })
             .catch((error) => {
                 setError(error.response.data?.warning);
@@ -74,35 +74,35 @@ function SignUpPage() {
     };
 
     return (
-        <div className={style.authForm}>
+        <div className={style.signup}>
 
-            <div className={style.authForm__container}>
-                <h1 className={style.authForm__container__title}>Регистрация</h1>
+            <div className={style.signup__container}>
+                <h1 className={style.signup__container__title}>Регистрация</h1>
 
                 {step === STEPS.FIRST && <>
-                    <form onSubmit={handleSubmitFormFirst} className={style.authForm__container__form}>
-                        <h1 className={style.authForm__container__item}>Имя</h1>
+                    <form onSubmit={handleSubmitFormFirst} className={style.signup__container__form}>
+                        <h1 className={style.signup__container__item}>Имя</h1>
                         <Input placeholder='Имя' onChange={(e) => handleSetInfo('name', e.target.value)} />
 
-                        <h1 className={style.authForm__container__item}>Никнейм</h1>
+                        <h1 className={style.asignup__container__item}>Никнейм</h1>
                         <Input placeholder='Никнейм' onChange={(e) => handleSetInfo('nik', e.target.value)} />
 
-                        <h1 className={style.authForm__container__item}>Почта</h1>
+                        <h1 className={style.signup__container__item}>Почта</h1>
                         <Input placeholder='Почта' type='email' onChange={(e) => handleSetInfo('email', e.target.value)} />
 
-                        <h1 className={style.authForm__container__item}>Пароль</h1>
+                        <h1 className={style.signup__container__item}>Пароль</h1>
                         <Input.Password placeholder='Пароль' type='password' onChange={(e) => handleSetInfo('password', e.target.value)} />
 
-                        <Button type="primary" htmlType="submit" className={style.authForm__container__button}>Продолжить</Button>
+                        <Button type="primary" htmlType="submit" className={style.asignup_container__button}>Продолжить</Button>
                     </form>
                 </>}
 
                 {step === STEPS.SECOND && <>
-                    <form className={style.authForm__container__form} onSubmit={handleSubmitFormSecond}>
-                        <h1 className={style.authForm__container__item}>Код подтверждения отправлен на почту. Время жизни кода 15 минут</h1>
-                        <p>{error}</p>
+                    <form className={style.signup__container__form} onSubmit={handleSubmitFormSecond}>
+                        <h1 className={style.signup__container__item}>Код подтверждения отправлен на почту. Время жизни кода 15 минут</h1>
+                        <p className={style.signup__container__error}>{error}</p>
                         <Input placeholder='Код подтверждения' onChange={(e) => handleSetInfo('code', e.target.value)} value={user.code}/>
-                        <Button type="primary" className={style.authForm__container__button} htmlType="submit">Зарегистрироваться</Button>
+                        <Button type="primary" className={style.signup__container__button} htmlType="submit">Зарегистрироваться</Button>
                     </form>
                 </>}
             </div>
