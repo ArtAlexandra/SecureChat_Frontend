@@ -1,7 +1,9 @@
+'use client';
 import { TMessage } from "@/shared/config/MessagesType";
 import { TUser } from "@/shared/config/TUser";
 import SelectedUser from "@/shared/ui/SelectedUser";
 import Messages from "@/widgets/Messages";
+import { useState } from "react";
 const users: TUser[] = [
     {
         id: '12331231',
@@ -93,10 +95,11 @@ const messages: TMessage[] = [
     },
 ]
 function HomePage() {
+    const [selectedUser, setSelectedUser] = useState<TUser>(users[0]);
     return(
         <div className="flex">
-         <Messages users={users}/>
-         <SelectedUser user={users[0]} messages={messages}/>
+         <Messages users={users} onSelect={(user)=>setSelectedUser(user)}/>
+         <SelectedUser user={selectedUser} messages={messages}/>
         </div>
     );
 }
