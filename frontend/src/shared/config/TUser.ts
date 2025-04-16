@@ -1,5 +1,8 @@
 export type TUser = {
-    id: string;
+    _id: string;
+    createdAt: string;
+    name: string;
     nik: string;
-    avatar: string;
+    theme: string;
+    updatedAt: string;
 };

@@ -1,28 +1,62 @@
+'use client';
 import { TMessage } from "@/shared/config/MessagesType";
 import { TUser } from "@/shared/config/TUser";
 import Image from "next/image";
 import style from './SelectedUser.module.scss';
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 interface ISelectedUseProps {
-    user: TUser;
-    messages: TMessage[];
-}
-function SelectedUser({user, messages}: ISelectedUseProps) {
-    return(
+    userId: string;
+};
+
+function SelectedUser({ userId }: ISelectedUseProps) {
+    const [user, setUser] = useState<TUser>();
+    const [messages, setMessages] = useState<TMessage[]>([]);
+
+    useEffect(() => {
+        if (!userId) return;
+        axios.get(`/messages/get-message/${userId}`, {
+            headers: {
+                'Authorization': localStorage.getItem('securechat_token')
+            }
+        })
+            .then((res) => {
+                setMessages(res.data)
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+
+
+        axios.get(`/users/select-id/${userId}`, {
+            headers: {
+                'Authorization': localStorage.getItem('securechat_token')
+            }
+        })
+            .then((res) => {
+                setUser(res.data)
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+
+    }, [userId])
+
+    return (
         <div className={style.selected}>
             <div className={style.selected__header}>
-            <Image src={user.avatar} alt="user" width={50} height={50}/>
-            <p>{user.nik}</p>
+                <p>{user?.nik}</p>
             </div>
             <div>
                 {messages.map((message, index) => {
-                    return(
+                    return (
                         <div key={`mes_${index}`} className={style.selected__message}>
-                            {message.value}
-                            {message.image && 
-                            <Image src={message.image} alt="image_user" width={300} height={400}/>
-                }
-                            </div>
+                            {message.content}
+                            {message.fileUrl &&
+                                <Image src={message.fileUrl} loader={({ src }) => src} alt="image_user" width={300} height={400} />
+                            }
+                        </div>
                     )
                 })}
             </div>

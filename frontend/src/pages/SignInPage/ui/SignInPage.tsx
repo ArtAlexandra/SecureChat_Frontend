@@ -33,7 +33,7 @@ function SignInPage() {
         await axios.post('/users/signin', data)
             .then((res) => {
                 console.log(res.data)
-                localStorage.setItem('securechat_token', res.data.access_token)
+                localStorage.setItem('securechat_token', "Bearer " + res.data.access_token)
                 router.replace(ROUTES.message.main);
             })
             .catch((error) => {
