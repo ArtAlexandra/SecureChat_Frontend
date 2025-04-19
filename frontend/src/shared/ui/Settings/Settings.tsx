@@ -8,9 +8,9 @@ function Settings() {
 
     return(
         <div className={style.settings}>
-            <Image src="/settings/user.svg" alt="user" width={50} height={50} onClick={()=>router.replace(ROUTES.settings.profile)}/>
-            <Image src="/settings/message.svg" alt="message" width={50} height={50} onClick={()=>router.replace(ROUTES.message.main)}/> 
-            <Image src="/settings/setting.svg" alt="setting" width={50} height={50} onClick={()=>router.replace(ROUTES.settings.profile)}/> 
+            <Image src="/settings/user.svg" alt="user" width={30} height={30} onClick={()=>router.replace(ROUTES.settings.profile)}/>
+            <Image src="/settings/message.svg" alt="message" width={30} height={30} onClick={()=>router.replace(ROUTES.message.main)}/> 
+            <Image src="/settings/setting.svg" alt="setting" width={30} height={30} onClick={()=>router.replace(ROUTES.settings.profile)}/> 
         </div>
     );
 }

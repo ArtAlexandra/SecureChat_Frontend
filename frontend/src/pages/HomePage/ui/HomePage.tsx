@@ -1,6 +1,6 @@
 'use client';
 import { TUser } from "@/shared/config/TUser";
-import SelectedUser from "@/shared/ui/SelectedUser";
+import SelectedUser from "@/widgets/SelectedUser";
 import Messages from "@/widgets/Messages";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -21,9 +21,10 @@ function HomePage() {
             })
     }, [])
     const [selectedUser, setSelectedUser] = useState<TUser>(users[0]);
+
     return (
         <div className="flex">
-            <Messages users={users} onSelect={(user) => setSelectedUser(user)} />
+            <Messages users={users} onSelect={(user) => setSelectedUser(user)} activeId={selectedUser?._id}/>
             <SelectedUser userId={selectedUser?._id} />
         </div>
     );

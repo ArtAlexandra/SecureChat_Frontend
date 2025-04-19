@@ -1,7 +1,8 @@
 'use client';
 
 import { ROUTES } from "@/shared/config/Routes";
-import { Button, Input } from "antd";
+import { Input } from "antd";
+import Button from '@/shared/ui/Button';
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -32,7 +33,6 @@ function SignInPage() {
         const data: ISignIn = user;
         await axios.post('/users/signin', data)
             .then((res) => {
-                console.log(res.data)
                 localStorage.setItem('securechat_token', "Bearer " + res.data.access_token)
                 router.replace(ROUTES.message.main);
             })
@@ -53,7 +53,7 @@ function SignInPage() {
                     <p className={style.signin__container__item}>Пароль</p>
                     <Input placeholder="Пароль" onChange={(e) => handleSetInfo('password', e.target.value)} />
 
-                    <Button type="primary" htmlType="submit" className={style.signin__container__button}>Войти</Button>
+                    <Button type="submit" className={style.signin__container__button}>Войти</Button>
                 </form>
             </div>
         </div>

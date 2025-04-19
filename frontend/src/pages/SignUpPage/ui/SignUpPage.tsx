@@ -1,6 +1,7 @@
 'use client';
 
-import { Button, Input } from 'antd';
+import { Input } from 'antd';
+import Button from '@/shared/ui/Button';
 import { useState } from 'react';
 import style from './SignUp.module.scss';
 import axios from 'axios';
@@ -93,7 +94,7 @@ function SignUpPage() {
                         <h1 className={style.signup__container__item}>Пароль</h1>
                         <Input.Password placeholder='Пароль' type='password' onChange={(e) => handleSetInfo('password', e.target.value)} />
 
-                        <Button type="primary" htmlType="submit" className={style.asignup_container__button}>Продолжить</Button>
+                        <Button type="submit" className={style.signup__container__button}>Продолжить</Button>
                     </form>
                 </>}
 
@@ -102,7 +103,7 @@ function SignUpPage() {
                         <h1 className={style.signup__container__item}>Код подтверждения отправлен на почту. Время жизни кода 15 минут</h1>
                         <p className={style.signup__container__error}>{error}</p>
                         <Input placeholder='Код подтверждения' onChange={(e) => handleSetInfo('code', e.target.value)} value={user.code}/>
-                        <Button type="primary" className={style.signup__container__button} htmlType="submit">Зарегистрироваться</Button>
+                        <Button className={style.signup__container__button} type="submit">Зарегистрироваться</Button>
                     </form>
                 </>}
             </div>

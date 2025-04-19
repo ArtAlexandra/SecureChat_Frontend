@@ -1,14 +1,14 @@
 .selected {
     width: calc(100vw - 300px);
-    background-color: #FCDCF1;
+    background-color: var(--color-pinkLight);
     &__header {
-        background-color: #ffffff;
+        background-color: var(--color-white);
         display: flex;
         height: 50px;
         line-height: 50px;
     }
     &__message {
-        background-color: #ffffff;
+        background-color: var(--color-white);
         height: fit-content;
         padding: 10px 15px;
         border-radius: 5px;

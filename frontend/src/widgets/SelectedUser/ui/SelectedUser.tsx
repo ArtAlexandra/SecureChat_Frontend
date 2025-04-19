@@ -5,6 +5,7 @@ import Image from "next/image";
 import style from './SelectedUser.module.scss';
 import { useEffect, useState } from "react";
 import axios from "axios";
+import WriteMessage from "@/shared/ui/WriteMessage";
 
 interface ISelectedUseProps {
     userId: string;
@@ -13,6 +14,10 @@ interface ISelectedUseProps {
 function SelectedUser({ userId }: ISelectedUseProps) {
     const [user, setUser] = useState<TUser>();
     const [messages, setMessages] = useState<TMessage[]>([]);
+
+    const handleSendMessage = (message: string) => {
+        console.log(message);
+    };
 
     useEffect(() => {
         if (!userId) return;
@@ -59,6 +64,7 @@ function SelectedUser({ userId }: ISelectedUseProps) {
                         </div>
                     )
                 })}
+                <WriteMessage onSubmit={handleSendMessage}/>
             </div>
         </div>
     );

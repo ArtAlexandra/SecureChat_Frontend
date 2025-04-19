@@ -4,7 +4,7 @@
     align-items: center;
     height: 70vh;
     width: 100vw;
-    color: #000000;
+    color: var(--color-balck);
 
     &__container {
         width: 400px;
@@ -15,7 +15,7 @@
             font-size: 18px;
             font-weight: 600;
             text-align: center;
-            color: #d91111;
+            color: var(--color-red);
         }
 
         &__title {
@@ -35,7 +35,7 @@
         }
 
         &__button {
-            background-color: #FD64C5;
+            width: 100%;
         }
 
     }
