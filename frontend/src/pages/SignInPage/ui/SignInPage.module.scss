@@ -36,6 +36,12 @@
 
         &__button {
             width: 100%;
+
+            &_blue {
+                width: 100%;
+                margin-top: 50px;
+                background-color: var(--color-blueLight);
+            }
         }
 
     }

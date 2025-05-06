@@ -54,6 +54,7 @@ function SignInPage() {
                     <Input placeholder="Пароль" onChange={(e) => handleSetInfo('password', e.target.value)} />
 
                     <Button type="submit" className={style.signin__container__button}>Войти</Button>
+                    <Button className={style.signin__container__button}>Зарегистрироваться</Button>
                 </form>
             </div>
         </div>
