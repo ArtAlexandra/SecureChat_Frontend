@@ -14,4 +14,16 @@
         padding: 10px;
         border-radius: 4px;
     }
+
+    &__list {
+        background-color: var(--color-white);
+        width: 100%;
+
+        &__item {
+            cursor: pointer;
+            &:hover {
+                color: var(--color-blueLight);
+            }
+        }
+    }
 }

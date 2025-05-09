@@ -1,0 +1,1 @@
+export { getHoursMinutes } from './getHoursMinutes';

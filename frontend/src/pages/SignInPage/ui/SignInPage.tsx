@@ -3,11 +3,11 @@
 import { ROUTES } from "@/shared/config/Routes";
 import { Input } from "antd";
 import Button from '@/shared/ui/Button';
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
 import style from './SignInPage.module.scss';
+import { signIn } from "../api/signIn";
+
 interface ISignIn {
     nik: string;
     password: string;
@@ -30,15 +30,9 @@ function SignInPage() {
 
     const handleSubmitForm = async (e: React.FormEvent) => {
         e.preventDefault();
-        const data: ISignIn = user;
-        await axios.post('/users/signin', data)
-            .then((res) => {
-                localStorage.setItem('securechat_token', "Bearer " + res.data.access_token)
-                router.replace(ROUTES.message.main);
-            })
-            .catch((error) => {
-                setError(error.response.data?.warning);
-            })
+        const answer = await signIn({ nik: user.nik, password: user.password });
+        if (!answer) router.replace(ROUTES.message.main);
+        setError(answer);
     };
     return (
         <div className={style.signin}>

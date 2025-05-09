@@ -1,27 +1,28 @@
-import { TUser } from "@/shared/config/TUser";
-
 import style from './Messages.module.scss';
 import Settings from "@/shared/ui/Settings";
 import clsx from "clsx";
-import Search from "@/shared/ui/Search";
+import Search from "./Search";
+import { createChat } from "../api/createChat";
+import type { TChat, TPopulatedUser } from "@/shared/config/ChatType";
 interface IMessagesProps {
-    users: TUser[];
-    onSelect: (user: TUser) => void;
+    chats: TChat[];
+    onSelect: (user: TPopulatedUser) => void;
     activeId?: string;
 };
-function Messages({ users, onSelect, activeId }: IMessagesProps) {
-    const handleSeacrh = (value: string) => {
-        console.log(value);
+function Messages({ chats, onSelect, activeId }: IMessagesProps) {
+
+    const handleCreateChat = async (id: string) => {
+        await createChat({ participantIds: [id] });
     }
     return (
         <div>
-            <Search onChange={handleSeacrh} />
+            <Search onCreateChat={handleCreateChat} />
             <div className={style.userList}>
                 {
-                    users.map((user, index) => {
+                    chats.map((chat, index) => {
                         return (
-                            <div key={`user_${index}`} className={clsx(style.userList__item, { [style.userList__item_active]: activeId === user._id })} onClick={() => onSelect(user)}>
-                                <p>{user.nik}</p>
+                            <div key={`user_${index}`} className={clsx(style.userList__item, { [style.userList__item_active]: activeId === chat._id })} onClick={() => onSelect(chat.interlocutor)}>
+                                <p>{chat.interlocutor?.nik}</p>
                             </div>
                         )
                     })
@@ -29,7 +30,6 @@ function Messages({ users, onSelect, activeId }: IMessagesProps) {
                 <Settings />
             </div>
         </div>
-
     );
 }
 

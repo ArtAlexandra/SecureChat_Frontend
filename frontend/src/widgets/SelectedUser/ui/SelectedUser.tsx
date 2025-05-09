@@ -1,11 +1,15 @@
 'use client';
-import { TMessage } from "@/shared/config/MessagesType";
-import { TUser } from "@/shared/config/TUser";
+import type { TMessage } from "@/shared/config/MessagesType";
+import type { TUser } from "@/shared/config/TUser";
 import Image from "next/image";
 import style from './SelectedUser.module.scss';
 import { useEffect, useState } from "react";
-import axios from "axios";
-import WriteMessage from "@/shared/ui/WriteMessage";
+import WriteMessage from "./WriteMessage";
+import { getMessages } from '../api/getMessages';
+import clsx from "clsx";
+import { getHoursMinutes } from "@/shared/helpers/Date";
+import { sendMessage } from "../api/sendMessage";
+import { selectUserById } from "../api/selectUserById";
 
 interface ISelectedUseProps {
     userId: string;
@@ -14,38 +18,38 @@ interface ISelectedUseProps {
 function SelectedUser({ userId }: ISelectedUseProps) {
     const [user, setUser] = useState<TUser>();
     const [messages, setMessages] = useState<TMessage[]>([]);
+    const [id, setId] = useState<string>('');
 
     const handleSendMessage = (message: string) => {
-        console.log(message);
+        if (!message) return;
+        try {
+            sendMessage({ receiverId: userId, content: message });
+            getMessages(userId);
+            loadMessages();
+        }
+        catch (error) {
+            console.error(error)
+        }
+    };
+
+    const loadMessages = async () => {
+        try {
+            const messages = await getMessages(userId);
+            setMessages(messages);
+        } catch (error) {
+            console.error('Ошибка загрузки сообщений:', error);
+        }
     };
 
     useEffect(() => {
         if (!userId) return;
-        axios.get(`/messages/get-message/${userId}`, {
-            headers: {
-                'Authorization': localStorage.getItem('securechat_token')
-            }
-        })
-            .then((res) => {
-                setMessages(res.data)
-            })
-            .catch((error) => {
-                console.error(error)
-            })
-
-
-        axios.get(`/users/select-id/${userId}`, {
-            headers: {
-                'Authorization': localStorage.getItem('securechat_token')
-            }
-        })
-            .then((res) => {
-                setUser(res.data)
-            })
-            .catch((error) => {
-                console.error(error)
-            })
-
+        const getData = async () => {
+            loadMessages();
+            setId(localStorage.getItem('userId') || '');
+            const selectedUser = await selectUserById(userId);
+            setUser(selectedUser);
+        };
+        getData();
     }, [userId])
 
     return (
@@ -56,15 +60,16 @@ function SelectedUser({ userId }: ISelectedUseProps) {
             <div>
                 {messages.map((message, index) => {
                     return (
-                        <div key={`mes_${index}`} className={style.selected__message}>
+                        <div key={`mes_${index}`} className={clsx(style.selected__message, { [style.selected__message_right]: id === message.senderId })}>
                             {message.content}
                             {message.fileUrl &&
                                 <Image src={message.fileUrl} loader={({ src }) => src} alt="image_user" width={300} height={400} />
                             }
+                            <p className={style.selected__message__timestamp}>{getHoursMinutes(message.createdAt)}</p>
                         </div>
                     )
                 })}
-                <WriteMessage onSubmit={handleSendMessage}/>
+                <WriteMessage onSubmit={handleSendMessage} />
             </div>
         </div>
     );
