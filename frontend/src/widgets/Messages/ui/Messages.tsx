@@ -6,14 +6,18 @@ import { createChat } from "../api/createChat";
 import type { TChat, TPopulatedUser } from "@/shared/config/ChatType";
 interface IMessagesProps {
     chats: TChat[];
-    onSelect: (user: TPopulatedUser) => void;
+    onSelect: (user: TPopulatedUser, chatId: string) => void;
     activeId?: string;
 };
 function Messages({ chats, onSelect, activeId }: IMessagesProps) {
 
     const handleCreateChat = async (id: string) => {
         await createChat({ participantIds: [id] });
-    }
+    };
+
+    const handleSelectChat = (chat: TChat ) => {
+        onSelect(chat.interlocutor, chat._id);
+    };
     return (
         <div>
             <Search onCreateChat={handleCreateChat} />
@@ -21,7 +25,7 @@ function Messages({ chats, onSelect, activeId }: IMessagesProps) {
                 {
                     chats.map((chat, index) => {
                         return (
-                            <div key={`user_${index}`} className={clsx(style.userList__item, { [style.userList__item_active]: activeId === chat._id })} onClick={() => onSelect(chat.interlocutor)}>
+                            <div key={`user_${index}`} className={clsx(style.userList__item, { [style.userList__item_active]: activeId === chat.interlocutor?._id })} onClick={() => handleSelectChat(chat)}>
                                 <p>{chat.interlocutor?.nik}</p>
                             </div>
                         )

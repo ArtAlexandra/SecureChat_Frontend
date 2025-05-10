@@ -7,22 +7,28 @@ import { getAllChats } from "../api/getAllChats";
 
 function HomePage() {
     const [chats, setChats] = useState<TChat[]>([]);
+    const [selectedUser, setSelectedUser] = useState<TPopulatedUser>(chats[0]?.interlocutor);
+    const [selectedChatId, setSelectedChatId] = useState<string>('');
 
     useEffect(() => {
         const getData = async() => {
             const allChats = await getAllChats();
+            console.log(allChats)
             setChats(allChats);
         };
 
         getData();
     }, []);
 
-    const [selectedUser, setSelectedUser] = useState<TPopulatedUser>(chats[0]?.interlocutor);
+    const handleSelectChat = (user: TPopulatedUser, chatId: string) => {
+        setSelectedUser(user);
+        setSelectedChatId(chatId);
+    };
 
     return (
         <div className="flex">
-            <Messages chats={chats} onSelect={setSelectedUser} activeId={selectedUser?._id}/>
-            <SelectedUser userId={selectedUser?._id} />
+            <Messages chats={chats} onSelect={handleSelectChat} activeId={selectedUser?._id}/>
+            <SelectedUser userId={selectedUser?._id} chatId={selectedChatId}/>
         </div>
     );
 }

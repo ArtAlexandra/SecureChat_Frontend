@@ -13,19 +13,20 @@ import { selectUserById } from "../api/selectUserById";
 
 interface ISelectedUseProps {
     userId: string;
+    chatId: string;
 };
 
-function SelectedUser({ userId }: ISelectedUseProps) {
+function SelectedUser({ userId, chatId }: ISelectedUseProps) {
+    console.log(chatId)
     const [user, setUser] = useState<TUser>();
     const [messages, setMessages] = useState<TMessage[]>([]);
     const [id, setId] = useState<string>('');
 
-    const handleSendMessage = (message: string) => {
+    const handleSendMessage = async (message: string) => {
         if (!message) return;
         try {
-            sendMessage({ receiverId: userId, content: message });
-            getMessages(userId);
-            loadMessages();
+            await sendMessage({ receiverId: userId, content: message, chatId });
+            await loadMessages();
         }
         catch (error) {
             console.error(error)
@@ -34,7 +35,7 @@ function SelectedUser({ userId }: ISelectedUseProps) {
 
     const loadMessages = async () => {
         try {
-            const messages = await getMessages(userId);
+            const messages = await getMessages(chatId);
             setMessages(messages);
         } catch (error) {
             console.error('Ошибка загрузки сообщений:', error);

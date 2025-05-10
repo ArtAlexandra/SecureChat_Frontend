@@ -17,7 +17,9 @@
     width: 100%;
     margin-bottom: 20px;
     display: flex;
-
+    &:active {
+      background-color: var(--color-blueLight);
+    }
     &_active {
       background-color: var(--color-blueLight);
     }

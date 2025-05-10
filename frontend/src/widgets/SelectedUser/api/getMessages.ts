@@ -2,8 +2,8 @@ import axios from "axios";
 import type { TMessage } from "@/shared/config/MessagesType";
 
 
-export const getMessages = (userId: string): Promise<TMessage[]> => {
-    return axios.get(`/messages/get-message/${userId}`, {
+export const getMessages = (chatId: string): Promise<TMessage[]> => {
+    return axios.get(`/chats/messages/${chatId}`, {
         headers: {
             'Authorization': localStorage.getItem('securechat_token')
         }
