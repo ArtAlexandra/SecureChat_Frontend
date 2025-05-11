@@ -34,6 +34,11 @@ function SignInPage() {
         if (!answer) router.replace(ROUTES.message.main);
         setError(answer);
     };
+
+    const handleMoveSignUp = () => {
+        router.replace(ROUTES.auth.signup);
+    };
+
     return (
         <div className={style.signin}>
             <div className={style.signin__container}>
@@ -45,11 +50,12 @@ function SignInPage() {
                     <Input placeholder="Никнейм" onChange={(e) => handleSetInfo('nik', e.target.value)} />
 
                     <p className={style.signin__container__item}>Пароль</p>
-                    <Input placeholder="Пароль" onChange={(e) => handleSetInfo('password', e.target.value)} />
+                    <Input.Password placeholder="Пароль" onChange={(e) => handleSetInfo('password', e.target.value)} />
 
-                    <Button type="submit" className={style.signin__container__button}>Войти</Button>
-                    <Button className={style.signin__container__button}>Зарегистрироваться</Button>
+                    <Button type="submit">Войти</Button>
                 </form>
+                <Button onClick={handleMoveSignUp}>Зарегистрироваться</Button>
+
             </div>
         </div>
     );

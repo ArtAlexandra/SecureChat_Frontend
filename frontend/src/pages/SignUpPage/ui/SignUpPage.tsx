@@ -61,6 +61,10 @@ function SignUpPage() {
         }));
     };
 
+    const handleMoveSignIn = () => {
+        router.push(ROUTES.auth.signin);
+    };
+    
     return (
         <div className={style.signup}>
 
@@ -81,8 +85,9 @@ function SignUpPage() {
                         <h1 className={style.signup__container__item}>Пароль</h1>
                         <Input.Password placeholder='Пароль' type='password' onChange={(e) => handleSetInfo('password', e.target.value)} />
 
-                        <Button type="submit" className={style.signup__container__button}>Продолжить</Button>
+                        <Button type="submit">Продолжить</Button>
                     </form>
+                    <Button onClick={handleMoveSignIn}>У меня есть аккаунт. Войти</Button>
                 </>}
 
                 {step === STEPS.SECOND && <>
@@ -90,7 +95,7 @@ function SignUpPage() {
                         <h1 className={style.signup__container__item}>Код подтверждения отправлен на почту. Время жизни кода 15 минут</h1>
                         <p className={style.signup__container__error}>{error}</p>
                         <Input placeholder='Код подтверждения' onChange={(e) => handleSetInfo('code', e.target.value)} value={user.code} />
-                        <Button className={style.signup__container__button} type="submit">Зарегистрироваться</Button>
+                        <Button type="submit">Зарегистрироваться</Button>
                     </form>
                 </>}
             </div>
