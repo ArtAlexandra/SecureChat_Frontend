@@ -6,9 +6,13 @@ import { useState } from 'react';
 import style from './SignUp.module.scss';
 import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/shared/config/Routes';
-import { ISignUp, STEPS } from '../model/SignUpTypes';
-import { sendEmailCode } from '../api/sendEmailCode';
-import { createUser } from '../api/createUser';
+import { ISignUp } from '@/shared/config/SignUpTypes';
+import { sendEmailCode, createUser } from "@/shared/api/auth";
+
+const enum STEPS {
+    FIRST = 'first',
+    SECOND = 'second'
+};
 
 function SignUpPage() {
     const router = useRouter();
@@ -64,7 +68,7 @@ function SignUpPage() {
     const handleMoveSignIn = () => {
         router.push(ROUTES.auth.signin);
     };
-    
+
     return (
         <div className={style.signup}>
 

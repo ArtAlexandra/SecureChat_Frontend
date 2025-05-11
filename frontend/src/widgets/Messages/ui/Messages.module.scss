@@ -8,18 +8,24 @@
   overflow-y: auto;
   padding-bottom: 50px;
   margin-top: 50px;
-  
+
   &__item {
     height: 50px;
     background-color: var(--color-grayLight);
     font-size: 20px;
     font-weight: 400;
-    width: 100%;
     margin-bottom: 20px;
     display: flex;
+    cursor: pointer;
+
+    &__nik {
+      margin-left: 100px;
+    }
+
     &:active {
       background-color: var(--color-blueLight);
     }
+
     &_active {
       background-color: var(--color-blueLight);
     }

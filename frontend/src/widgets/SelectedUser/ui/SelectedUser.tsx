@@ -5,11 +5,9 @@ import Image from "next/image";
 import style from './SelectedUser.module.scss';
 import { useEffect, useState } from "react";
 import WriteMessage from "./WriteMessage";
-import { getMessages } from '../api/getMessages';
 import clsx from "clsx";
 import { getHoursMinutes } from "@/shared/helpers/Date";
-import { sendMessage } from "../api/sendMessage";
-import { selectUserById } from "../api/selectUserById";
+import { sendMessage, selectUserById, getMessages } from "@/shared/api/chats";
 
 interface ISelectedUseProps {
     userId: string;
@@ -17,7 +15,6 @@ interface ISelectedUseProps {
 };
 
 function SelectedUser({ userId, chatId }: ISelectedUseProps) {
-    console.log(chatId)
     const [user, setUser] = useState<TUser>();
     const [messages, setMessages] = useState<TMessage[]>([]);
     const [id, setId] = useState<string>('');

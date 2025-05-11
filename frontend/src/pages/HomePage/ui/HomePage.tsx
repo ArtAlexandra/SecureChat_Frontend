@@ -3,7 +3,7 @@ import SelectedUser from "@/widgets/SelectedUser";
 import Messages from "@/widgets/Messages";
 import { useEffect, useState } from "react";
 import type { TChat, TPopulatedUser } from "@/shared/config/ChatType";
-import { getAllChats } from "../api/getAllChats";
+import { getAllChats } from "@/shared/api/chats";
 
 function HomePage() {
     const [chats, setChats] = useState<TChat[]>([]);

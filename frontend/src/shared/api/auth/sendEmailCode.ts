@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ISignUp } from "../model/SignUpTypes";
+import { ISignUp } from "@/shared/config/SignUpTypes";
 
 interface ISendEmailCode {
     data: ISignUp;

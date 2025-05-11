@@ -5,9 +5,3 @@ export interface ISignUp {
     email: string;
     code?: string;
 };
-
-
-export const enum STEPS {
-    FIRST = 'first',
-    SECOND = 'second'
-};

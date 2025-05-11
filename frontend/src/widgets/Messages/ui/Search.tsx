@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import style from './Search.module.scss';
 import type { TUser } from "@/shared/config/TUser";
-import { searchUser } from '../api/searchUser';
+import { searchUser } from '@/shared/api/chats';
 
 interface ISearchProps {
     onCreateChat: (id: string) => void;

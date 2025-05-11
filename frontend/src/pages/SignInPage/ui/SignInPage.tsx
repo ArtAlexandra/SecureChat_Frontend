@@ -6,7 +6,7 @@ import Button from '@/shared/ui/Button';
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import style from './SignInPage.module.scss';
-import { signIn } from "../api/signIn";
+import { signIn } from "@/shared/api/auth";
 
 interface ISignIn {
     nik: string;
