@@ -4,15 +4,20 @@
     border-radius: 4px;
     color: var(--color-white);
 
-    &:hover {
-        background-color: var(--color-pinkDark);
-    }
 
     &_error {
         background-color: var(--color-red);
+
+        &:hover {
+            background-color: var(--color-redDark);
+        }
     }
 
     &_basic {
         background-color: var(--color-pink);
+
+        &:hover {
+            background-color: var(--color-pinkDark);
+        }
     }
 }

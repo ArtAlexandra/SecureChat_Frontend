@@ -1,14 +1,11 @@
 'use client';
 
-import SettingsProfile from "./SettingsProfile";
+import SettingsProfile from "@/features/SettingsProfile";
 
 function Profile() {
-    const handleExit = () => {
-
-    };
     return(
         <>
-            <SettingsProfile onExit={handleExit} onSelect={handleExit}/>
+            <SettingsProfile />
         </>
     );
 }
