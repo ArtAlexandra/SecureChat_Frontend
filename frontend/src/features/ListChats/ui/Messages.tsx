@@ -1,10 +1,11 @@
 import style from './Messages.module.scss';
-import Settings from "@/shared/ui/Settings";
 import clsx from "clsx";
 import Search from "./Search";
 import { createChat, getAllChats } from "@/shared/api/chats";
 import type { TChat, TPopulatedUser } from "@/shared/config/ChatType";
 import { useEffect, useState } from 'react';
+import Settings from '@/widgets/Settings';
+
 interface IMessagesProps {
     chats: TChat[];
     onSelect: (user: TPopulatedUser, chatId: string) => void;
@@ -15,7 +16,7 @@ function Messages({ chats, onSelect, activeId }: IMessagesProps) {
     const [listChats, setListChats] = useState<TChat[]>(chats);
 
     useEffect(() => {
-        if(!chats) return;
+        if (!chats) return;
         setListChats(chats);
     }, [chats]);
 
@@ -25,24 +26,25 @@ function Messages({ chats, onSelect, activeId }: IMessagesProps) {
         setListChats(list);
     };
 
-    const handleSelectChat = (chat: TChat ) => {
+    const handleSelectChat = (chat: TChat) => {
         onSelect(chat.interlocutor, chat._id);
     };
     return (
         <div>
-            <Search onCreateChat={handleCreateChat} />
-            <div className={style.userList}>
-                {
-                    listChats.map((chat, index) => {
-                        return (
-                            <div key={`user_${index}`} className={clsx(style.userList__item, { [style.userList__item_active]: activeId === chat.interlocutor?._id })} onClick={() => handleSelectChat(chat)}>
-                                <p className={style.userList__item__nik}>{chat.interlocutor?.nik}</p>
-                            </div>
-                        )
-                    })
-                }
-                <Settings />
-            </div>
+            <Settings>
+                <Search onCreateChat={handleCreateChat} />
+                <div className={style.userList}>
+                    {
+                        listChats.map((chat, index) => {
+                            return (
+                                <div key={`user_${index}`} className={clsx(style.userList__item, { [style.userList__item_active]: activeId === chat.interlocutor?._id })} onClick={() => handleSelectChat(chat)}>
+                                    <p className={style.userList__item__nik}>{chat.interlocutor?.nik}</p>
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+            </Settings>
         </div>
     );
 }

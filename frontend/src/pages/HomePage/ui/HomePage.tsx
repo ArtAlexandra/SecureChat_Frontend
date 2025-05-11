@@ -1,6 +1,6 @@
 'use client';
-import SelectedUser from "@/widgets/SelectedUser";
-import Messages from "@/widgets/Messages";
+import SelectedUser from "@/features/SelectedUser";
+import ListChats from "@/features/ListChats";
 import { useEffect, useState } from "react";
 import type { TChat, TPopulatedUser } from "@/shared/config/ChatType";
 import { getAllChats } from "@/shared/api/chats";
@@ -12,6 +12,7 @@ function HomePage() {
 
     useEffect(() => {
         const getData = async() => {
+            console.log(1)
             const allChats = await getAllChats();
             console.log(allChats)
             setChats(allChats);
@@ -27,7 +28,7 @@ function HomePage() {
 
     return (
         <div className="flex">
-            <Messages chats={chats} onSelect={handleSelectChat} activeId={selectedUser?._id}/>
+            <ListChats chats={chats} onSelect={handleSelectChat} activeId={selectedUser?._id}/>
             <SelectedUser userId={selectedUser?._id} chatId={selectedChatId}/>
         </div>
     );
