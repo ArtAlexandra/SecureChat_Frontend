@@ -1,0 +1,36 @@
+.modal {
+    &_small {
+        :global(.ant-modal-content) {
+            width: 350px;
+            margin: auto;
+        }
+    }
+
+    &_big {
+        :global(.ant-modal) {
+            max-width: calc(100vw - 20px);
+        }
+
+        :global(.ant-modal-content) {
+            width: 90vw;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
+
+    &_fullscreen {
+        :global(.ant-modal) {
+            max-width: calc(100vw - 20px);
+            max-height: calc(100vh - 20px);
+        }
+
+        :global(.ant-modal-content) {
+            width: 90vw;
+            height: 95vh;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
+}

@@ -2,7 +2,7 @@ import style from './Button.module.scss';
 import clsx from 'clsx';
 
 type TButtonType = 'reset' | 'submit';
-type TButtonColor = 'basic' | 'error';
+type TButtonColor = 'basic' | 'error' | 'secondary';
 
 interface IButtonProps {
     children: React.ReactNode;
