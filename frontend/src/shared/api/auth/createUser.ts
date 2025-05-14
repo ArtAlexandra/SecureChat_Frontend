@@ -11,7 +11,6 @@ export const createUser = ({data}: ICreateUserProps): Promise<string> => {
         return '';
     })
     .catch((error) => {
-      console.log(error);
       return error.response.data?.warning;
     })
 }

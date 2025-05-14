@@ -1,0 +1,6 @@
+$width: calc(100vw - 300px);
+.userInfo {
+    width: $width;
+    background-color: var(--color-pinkLight);
+    margin-bottom: 60px;
+}

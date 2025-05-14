@@ -10,7 +10,6 @@ export const sendEmailCode = ({data}: ISendEmailCode): Promise<string> => {
         return '';
     })
     .catch((error) => {
-        console.error(error)
         return error.response.data?.warning;
     })
 }

@@ -1,0 +1,67 @@
+.input {
+    &__fieldContainer {
+        position: relative;
+    }
+
+    &__field {
+        width: 100%;
+        height: 38px;
+        border-radius: 8px;
+        font-size: 14px;
+        line-height: 18px;
+        padding: 10px 16px;
+        outline: none;
+        border: 1px solid var(--color-input-border);
+        color: var(--color-input-text);
+        transition: border 0.3s ease;
+
+        &[type="number"] {
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+
+        &:active,
+        &:hover {
+            border-color: var(--color-input-border-hover);
+        }
+
+        &_disabled {
+            cursor: not-allowed;
+            opacity: 0.8;
+
+            &:hover {
+                border-color: var(--color-input-border);
+            }
+        }
+
+        &_readOnly {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        &_withIcon {
+            padding-right: 40px;
+        }
+    }
+
+    &__suffix {
+        position: absolute;
+        right: 12px;
+        top: 12px;
+    }
+
+    &__caption {
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 400;
+        color: var(--color-input-helper-text);
+    }
+}
