@@ -48,28 +48,42 @@ function SelectedUser({ userId, chatId }: ISelectedUseProps) {
             setUser(selectedUser);
         };
         getData();
-    }, [userId])
+    }, [userId]);
 
     return (
         <div className={style.selected}>
             <div className={style.selected__header}>
                 <p>{user?.nik}</p>
             </div>
-            <div>
-                {messages.map((message, index) => {
-                    return (
-                        <div key={`mes_${index}`} className={clsx(style.selected__message, { [style.selected__message_right]: id === message.senderId })}>
-                            {message.content}
-                            {message.fileUrl &&
-                                <Image src={message.fileUrl} loader={({ src }) => src} alt="image_user" width={300} height={400} />
-                            }
-                            <p className={style.selected__message__timestamp}>{getHoursMinutes(message.createdAt)}</p>
-                        </div>
-                    )
-                })}
-                <WriteMessage onSubmit={handleSendMessage} />
+
+            <div className={style.selected__messagesContainer}>
+                {messages.map((message, index) => (
+                    <div
+                        key={`mes_${index}`}
+                        className={clsx(style.selected__message, {
+                            [style.selected__message_right]: id === message.senderId
+                        })}
+                    >
+                        {message.content}
+                        {message.fileUrl && (
+                            <Image
+                                src={message.fileUrl}
+                                loader={({ src }) => src}
+                                alt="image_user"
+                                width={300}
+                                height={400}
+                            />
+                        )}
+                        <p className={style.selected__message__timestamp}>
+                            {getHoursMinutes(message.createdAt)}
+                        </p>
+                    </div>
+                ))}
             </div>
+
+            <WriteMessage onSubmit={handleSendMessage} />
         </div>
     );
 }
+
 export default SelectedUser;

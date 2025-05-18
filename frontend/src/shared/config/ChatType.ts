@@ -18,4 +18,5 @@ export type TChat = {
     updatedAt: Date;
     __v?: number;
     interlocutor: TPopulatedUser;
+    unreadCount: number;
 };

@@ -38,7 +38,10 @@ function Messages({ chats, onSelect, activeId }: IMessagesProps) {
                         listChats.map((chat, index) => {
                             return (
                                 <div key={`user_${index}`} className={clsx(style.userList__item, { [style.userList__item_active]: activeId === chat.interlocutor?._id })} onClick={() => handleSelectChat(chat)}>
-                                    <p className={style.userList__item__nik}>{chat.interlocutor?.nik}</p>
+                                    <span className={style.userList__item__nik}>{chat.interlocutor?.nik}</span>
+                                    {chat.unreadCount > 0 &&
+                                        <span className={style.userList__item__badge}>{chat.unreadCount}</span>
+                                    }
                                 </div>
                             )
                         })

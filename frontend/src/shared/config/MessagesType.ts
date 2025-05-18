@@ -5,4 +5,5 @@ export type TMessage = {
     fileUrl: string;
     receiverId: string;
     senderId: string;
+    isRead: boolean;
 };
