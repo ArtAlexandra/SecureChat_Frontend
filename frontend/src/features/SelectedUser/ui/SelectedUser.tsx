@@ -53,6 +53,7 @@ function SelectedUser({ userId, chatId }: ISelectedUseProps) {
     return (
         <div className={style.selected}>
             <div className={style.selected__header}>
+                {user &&  <Image src={user?.image || '/avatarUsers/defaultLogo.jpg'} loader={({ src }) => src} width={50} height={50} alt={`avatar_${user?.nik}`} /> }
                 <p>{user?.nik}</p>
             </div>
 

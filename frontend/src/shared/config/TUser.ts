@@ -5,4 +5,5 @@ export type TUser = {
     nik: string;
     theme: string;
     updatedAt: string;
+    image: string;
 };

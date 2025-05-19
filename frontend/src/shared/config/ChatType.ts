@@ -2,6 +2,7 @@ export type TPopulatedUser = {
     _id: string;
     nik: string;
     email: string;
+    image?: string;
 };
 
 export type TChat = {
