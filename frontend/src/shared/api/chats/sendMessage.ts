@@ -1,16 +1,7 @@
 import axios from "axios";
 
-interface ISendMessageProps {
-    receiverId: string;
-    content: string;
-    chatId: string;
-};
-
-export const sendMessage = async ({receiverId, content, chatId}: ISendMessageProps) => {
-    const data = {
-        receiverId,
-        content
-    };
+export const sendMessage = async (chatId: string, data: FormData) => {
+   
     return axios.post(`/chats/send-messages/${chatId}`, data, {
         headers: {
             'Authorization': localStorage.getItem('securechat_token')

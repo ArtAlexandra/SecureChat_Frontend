@@ -19,10 +19,15 @@ function SelectedUser({ userId, chatId }: ISelectedUseProps) {
     const [messages, setMessages] = useState<TMessage[]>([]);
     const [id, setId] = useState<string>('');
 
-    const handleSendMessage = async (message: string) => {
+    const handleSendMessage = async (message: string, file?: File) => {
         if (!message) return;
         try {
-            await sendMessage({ receiverId: userId, content: message, chatId });
+            const formData = new FormData();
+            formData.append('receiverId', userId);
+            formData.append('content', message);
+            formData.append('chatId', chatId);
+            if(file) formData.append('file', file);
+            await sendMessage(chatId, formData);
             await loadMessages();
         }
         catch (error) {
@@ -81,8 +86,7 @@ function SelectedUser({ userId, chatId }: ISelectedUseProps) {
                     </div>
                 ))}
             </div>
-
-            <WriteMessage onSubmit={handleSendMessage} />
+            <WriteMessage onSubmit={handleSendMessage} userId={userId}/>
         </div>
     );
 }
