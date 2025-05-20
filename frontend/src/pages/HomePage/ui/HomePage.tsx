@@ -8,7 +8,7 @@ import { useUnread } from "@/shared/contexts/UnreadContext";
 
 function HomePage() {
     const [chats, setChats] = useState<TChat[]>([]);
-    const [selectedUser, setSelectedUser] = useState<TPopulatedUser>(chats[0]?.interlocutor);
+    const [selectedUser, setSelectedUser] = useState<TPopulatedUser| null>(null);
     const [selectedChatId, setSelectedChatId] = useState<string>('');
     const { refreshUnreadCount } = useUnread();
 
@@ -30,10 +30,17 @@ function HomePage() {
         setSelectedChatId(chatId);
     };
 
+    const handleUpdateList = async () => {
+        const allChats = await getAllChats();
+        setChats(allChats);
+        setSelectedUser(null);
+        setSelectedChatId('');
+    };
+
     return (
         <div className="flex">
             <ListChats chats={chats} onSelect={handleSelectChat} activeId={selectedUser?._id} />
-            <SelectedUser userId={selectedUser?._id} chatId={selectedChatId} />
+            {selectedUser?._id && <SelectedUser userId={selectedUser?._id} chatId={selectedChatId} onUpdateList={handleUpdateList}/>}
         </div>
     );
 }

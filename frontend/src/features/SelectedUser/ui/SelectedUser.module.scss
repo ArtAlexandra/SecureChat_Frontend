@@ -13,6 +13,8 @@ $width: calc(100vw - 300px);
         position: fixed;
         top: 0;
         width: 100%;
+        align-items: center;
+        gap: 1rem;
     }
 
     &__messagesContainer {
