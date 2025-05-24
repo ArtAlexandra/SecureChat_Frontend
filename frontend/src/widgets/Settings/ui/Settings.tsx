@@ -24,7 +24,7 @@ function Settings({ children }: ISettingsProps) {
                     alt="user"
                     width={30}
                     height={30}
-                    onClick={() => router.replace(ROUTES.settings.profile)}
+                    onClick={() => router.replace(ROUTES.settings.createGroup)}
                     className={style.settings__icon}
                 />
                 <div className={style.settings__notificationContainer}>

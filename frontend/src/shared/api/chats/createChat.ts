@@ -4,12 +4,14 @@ import axios from "axios"
 interface ICreateChatProps {
     participantIds: string[];
     isGroup?: boolean;
+    groupName?: string;
 };
 
-export const createChat = ({ participantIds, isGroup = false }: ICreateChatProps): Promise<TChat> => {
+export const createChat = ({ participantIds, isGroup = false, groupName }: ICreateChatProps): Promise<TChat> => {
     const data = {
         participantIds,
-        isGroup
+        isGroup,
+        groupName
     }
     return axios.post('/chats/create-chat', data, {
         headers: {

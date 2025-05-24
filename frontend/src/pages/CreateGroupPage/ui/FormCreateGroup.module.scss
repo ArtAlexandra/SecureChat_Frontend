@@ -1,0 +1,9 @@
+$width: calc(100vw - 300px);
+
+.formCreate {
+    width: $width;
+    background-color: var(--color-pinkLight);
+    margin-bottom: 60px;
+    min-height: 100vh;
+    height: 100%;
+}

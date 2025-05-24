@@ -8,7 +8,7 @@ export type TPopulatedUser = {
 export type TChat = {
     _id: string;
     participants: TPopulatedUser[];
-    isGroup: boolean;
+    isGroup?: boolean;
     groupName?: string;
     messages: string[];
     lastMessage?: {

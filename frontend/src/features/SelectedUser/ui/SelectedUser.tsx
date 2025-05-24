@@ -7,29 +7,31 @@ import { useEffect, useState } from "react";
 import WriteMessage from "./WriteMessage";
 import clsx from "clsx";
 import { getHoursMinutes } from "@/shared/helpers/Date";
-import { sendMessage, selectUserById, getMessages, deleteMessage, deleteChat } from "@/shared/api/chats";
+import { sendMessage, getMessages, deleteMessage, deleteChat, getChatById } from "@/shared/api/chats";
 import ToolsMessage from "./ToolsMessage";
 import Button from "@/shared/ui/Button";
+import { getMe } from "@/shared/api/user";
+import { TInfoChat } from "@/shared/config/TInfoChat";
 
 interface ISelectedUseProps {
-    userId: string;
     chatId: string;
 
     onUpdateList: () => void;
 };
 
-function SelectedUser({ userId, chatId, onUpdateList }: ISelectedUseProps) {
+function SelectedUser({ chatId, onUpdateList }: ISelectedUseProps) {
     const [user, setUser] = useState<TUser>();
     const [messages, setMessages] = useState<TMessage[]>([]);
-    const [id, setId] = useState<string>('');
+
     const [showToolsMessage, setShowToolsMessage] = useState<boolean>(false);
     const [messageId, setMessageId] = useState<string>('');
+    const [infoChat, setInfoChat] = useState<TInfoChat>();
 
     const handleSendMessage = async (message: string, file?: File) => {
-        if (!message) return;
+        if (!message || !user) return;
         try {
             const formData = new FormData();
-            formData.append('receiverId', userId);
+            formData.append('receiverId', user?._id);
             formData.append('content', message);
             formData.append('chatId', chatId);
             if (file) formData.append('file', file);
@@ -51,15 +53,21 @@ function SelectedUser({ userId, chatId, onUpdateList }: ISelectedUseProps) {
     };
 
     useEffect(() => {
-        if (!userId) return;
+        if (!chatId) return;
         const getData = async () => {
             loadMessages();
-            setId(localStorage.getItem('userId') || '');
-            const selectedUser = await selectUserById(userId);
-            setUser(selectedUser);
         };
+
+        const getDataUser = async () => {
+            const data = await getMe();
+            setUser(data);
+            const chat = await getChatById(chatId);
+            setInfoChat(chat);
+        };
+
         getData();
-    }, [userId]);
+        getDataUser();
+    }, [chatId]);
 
     const handleDeleteChat = async () => {
         await deleteChat(chatId);
@@ -76,12 +84,12 @@ function SelectedUser({ userId, chatId, onUpdateList }: ISelectedUseProps) {
         }
 
     };
-    
+
     return (
         <div className={style.selected}>
             <div className={style.selected__header}>
-                {user && <Image src={user?.image || '/avatarUsers/defaultLogo.jpg'} loader={({ src }) => src} width={50} height={50} alt={`avatar_${user?.nik}`} />}
-                <p>{user?.nik}</p>
+                {infoChat && <Image src={infoChat?.logo || '/avatarUsers/defaultLogo.jpg'} loader={({ src }) => src} width={50} height={50} alt={`avatar_${infoChat?.title}`} />}
+                <p>{infoChat?.title}</p>
                 <Button color="error" onClick={handleDeleteChat} className="absolute right-80">Удалить чат</Button>
             </div>
 
@@ -91,12 +99,12 @@ function SelectedUser({ userId, chatId, onUpdateList }: ISelectedUseProps) {
                     <div
                         key={`mes_${index}`}
                         className={clsx(style.selected__message, {
-                            [style.selected__message_right]: id === message.senderId
+                            [style.selected__message_right]: user?._id === message.senderId
                         })}
                         onClick={() => handleOpenTools(message._id)}
                     >
                         <div className="mt-5 mb-3">
-                            {showToolsMessage && messageId === message._id && message.receiverId === userId && <ToolsMessage onDelete={() => deleteMessage(message._id)} />}
+                            {showToolsMessage && user && messageId === message._id && message.receiverId !== user?._id && <ToolsMessage onDelete={() => deleteMessage(message._id)} />}
                         </div>
                         {message.content}
                         {message.fileUrl && (
@@ -115,7 +123,7 @@ function SelectedUser({ userId, chatId, onUpdateList }: ISelectedUseProps) {
 
                 ))}
             </div>
-            <WriteMessage onSubmit={handleSendMessage} userId={userId} />
+            {user && <WriteMessage onSubmit={handleSendMessage} userId={user?._id} />}
         </div>
     );
 }

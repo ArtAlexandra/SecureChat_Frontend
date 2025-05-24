@@ -1,9 +1,8 @@
-import type { TUser } from "@/shared/config/TUser";
+import { TUser } from "@/shared/config/TUser";
 import axios from "axios";
 
-export const searchUser = (value: string): Promise<TUser[]> => {
-
-    return axios.get(`users/find/${value}`, {
+export const getAllUsers = (): Promise<TUser[]> => {
+    return axios.get('/users/get-all', {
         headers: {
             'Authorization': localStorage.getItem('securechat_token')
         }
@@ -12,6 +11,6 @@ export const searchUser = (value: string): Promise<TUser[]> => {
             return res.data;
         })
         .catch((error) => {
-            console.error(error)
+            console.error(error);
         })
-};
+}

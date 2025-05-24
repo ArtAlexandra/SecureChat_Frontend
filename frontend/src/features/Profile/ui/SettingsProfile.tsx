@@ -33,11 +33,11 @@ function SettingsProfile() {
         getUser();
         setShowUserInfo(true);
     };
-    
+
     return (
-        <div className="flex">
+        <div className={style.settingsProfile}>
             <Settings>
-                <div className={style.settingsProfile}>
+                <div className={style.settingsProfile__main}>
                     <div onClick={handleGetUser} className={style.settingsProfile__item}>Мой профиль</div>
                     <div onClick={() => handleSelectItem("/")} className={style.settingsProfile__item}>Оформление</div>
                     <Button color="error" onClick={() => setShowModalExit(true)} className={style.settingsProfile__button}>Выход</Button>

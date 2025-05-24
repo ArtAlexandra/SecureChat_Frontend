@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import type { TChat, TPopulatedUser } from "@/shared/config/ChatType";
 import { getAllChats } from "@/shared/api/chats";
 import { useUnread } from "@/shared/contexts/UnreadContext";
+import style from './HomePage.module.scss';
 
 function HomePage() {
     const [chats, setChats] = useState<TChat[]>([]);
@@ -22,11 +23,10 @@ function HomePage() {
         getData();
     }, []);
 
-    const handleSelectChat = async (user: TPopulatedUser, chatId: string) => {
+    const handleSelectChat = async (chatId: string) => {
         const allChats = await getAllChats();
         setChats(allChats);
         await refreshUnreadCount();
-        setSelectedUser(user);
         setSelectedChatId(chatId);
     };
 
@@ -38,9 +38,9 @@ function HomePage() {
     };
 
     return (
-        <div className="flex">
+        <div className={style.homePage}>
             <ListChats chats={chats} onSelect={handleSelectChat} activeId={selectedUser?._id} />
-            {selectedUser?._id && <SelectedUser userId={selectedUser?._id} chatId={selectedChatId} onUpdateList={handleUpdateList}/>}
+            {selectedChatId && <SelectedUser chatId={selectedChatId} onUpdateList={handleUpdateList}/>}
         </div>
     );
 }

@@ -1,9 +1,8 @@
-import type { TUser } from "@/shared/config/TUser";
+import { TInfoChat } from "@/shared/config/TInfoChat";
 import axios from "axios";
 
-export const searchUser = (value: string): Promise<TUser[]> => {
-
-    return axios.get(`users/find/${value}`, {
+export const getChatById = (chatId: string): Promise<TInfoChat> => {
+    return axios.get(`/chats/chat-by-id/${chatId}`, {
         headers: {
             'Authorization': localStorage.getItem('securechat_token')
         }
@@ -14,4 +13,4 @@ export const searchUser = (value: string): Promise<TUser[]> => {
         .catch((error) => {
             console.error(error)
         })
-};
+}

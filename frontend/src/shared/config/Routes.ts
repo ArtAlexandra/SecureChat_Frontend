@@ -9,6 +9,7 @@ export const ROUTES = {
     },
     settings: {
         theme: '/settings/theme',
-        profile: '/settings/profile'
+        profile: '/settings/profile',
+        createGroup: '/settings/create-group'
     }
 };
