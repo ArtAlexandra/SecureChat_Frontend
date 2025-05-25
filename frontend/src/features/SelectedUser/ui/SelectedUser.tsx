@@ -12,6 +12,7 @@ import ToolsMessage from "./ToolsMessage";
 import Button from "@/shared/ui/Button";
 import { getMe } from "@/shared/api/user";
 import { TInfoChat } from "@/shared/config/TInfoChat";
+import { bigIntArrayToString, createUniqueKey, speckBlocksToString, SpeckCipher, stringToBigIntArray, stringToSpeckBlocks } from "@/entities/Speck";
 
 interface ISelectedUseProps {
     chatId: string;
@@ -20,19 +21,28 @@ interface ISelectedUseProps {
 };
 
 function SelectedUser({ chatId, onUpdateList }: ISelectedUseProps) {
+    const [speck, setSpeck] = useState<SpeckCipher | null>(null);
     const [user, setUser] = useState<TUser>();
     const [messages, setMessages] = useState<TMessage[]>([]);
-
     const [showToolsMessage, setShowToolsMessage] = useState<boolean>(false);
     const [messageId, setMessageId] = useState<string>('');
     const [infoChat, setInfoChat] = useState<TInfoChat>();
 
+    const encryptText = (text: string): string => {
+        if (!speck) return '';
+        const blocks = stringToSpeckBlocks(text);
+        const encryptedBlock = speck.encryptBlock(blocks);
+        const bigStr = bigIntArrayToString(encryptedBlock);
+        return bigStr;
+    };
+
     const handleSendMessage = async (message: string, file?: File) => {
-        if (!message || !user) return;
+        if (!message || !user || !speck) return;
         try {
+            const secretMessage = encryptText(message);
             const formData = new FormData();
             formData.append('receiverId', user?._id);
-            formData.append('content', message);
+            formData.append('content', secretMessage);
             formData.append('chatId', chatId);
             if (file) formData.append('file', file);
             await sendMessage(chatId, formData);
@@ -43,10 +53,41 @@ function SelectedUser({ chatId, onUpdateList }: ISelectedUseProps) {
         }
     };
 
+    useEffect(() => {
+        if (!speck) return;
+        loadMessages();
+    }, [speck]);
+
+    const decryptText = (text: string): string => {
+        if (!speck) return '';
+        const strBig = stringToBigIntArray(text);
+        const decryptedBlock = speck.decryptBlock(strBig);
+        const content = speckBlocksToString(decryptedBlock);
+        return content;
+    };
+
     const loadMessages = async () => {
+        if (!speck) return;
         try {
-            const messages = await getMessages(chatId);
-            setMessages(messages);
+            const encryptedMessages = await getMessages(chatId);
+
+            const decryptedMessages = encryptedMessages.map(msg => {
+                try {
+                    const decryptedMessage = decryptText(msg.content);
+                    return {
+                        ...msg,
+                        content: decryptedMessage
+                    };
+                } catch (error) {
+                    console.error('Ошибка декодирования сообщения:', msg._id, error);
+                    return {
+                        ...msg,
+                        content: "[Невозможно расшифровать сообщение]"
+                    };
+                }
+            });
+
+            setMessages(decryptedMessages);
         } catch (error) {
             console.error('Ошибка загрузки сообщений:', error);
         }
@@ -55,18 +96,24 @@ function SelectedUser({ chatId, onUpdateList }: ISelectedUseProps) {
     useEffect(() => {
         if (!chatId) return;
         const getData = async () => {
-            loadMessages();
-        };
-
-        const getDataUser = async () => {
             const data = await getMe();
             setUser(data);
             const chat = await getChatById(chatId);
             setInfoChat(chat);
+            let createdKey: bigint[] = [];
+
+            if (Array.isArray(chat.participants)) {
+                const niks = chat.participants.map(user => user.nik);
+                createdKey = createUniqueKey(data.nik, niks.join(','));
+            }
+            else if (typeof chat.participants === 'object' && 'nik' in chat.participants) {
+                createdKey = createUniqueKey(data.nik, chat.participants.nik);
+            }
+            setSpeck(new SpeckCipher(createdKey))
         };
 
         getData();
-        getDataUser();
+
     }, [chatId]);
 
     const handleDeleteChat = async () => {
@@ -83,6 +130,11 @@ function SelectedUser({ chatId, onUpdateList }: ISelectedUseProps) {
             setMessageId(id);
         }
 
+    };
+
+    const handleDelete = (id: string) => {
+        deleteMessage(id);
+        loadMessages();
     };
 
     return (
@@ -104,7 +156,7 @@ function SelectedUser({ chatId, onUpdateList }: ISelectedUseProps) {
                         onClick={() => handleOpenTools(message._id)}
                     >
                         <div className="mt-5 mb-3">
-                            {showToolsMessage && user && messageId === message._id && message.receiverId !== user?._id && <ToolsMessage onDelete={() => deleteMessage(message._id)} />}
+                            {showToolsMessage && user && messageId === message._id && message.receiverId !== user?._id && <ToolsMessage onDelete={() => handleDelete(message._id)} />}
                         </div>
                         {message.content}
                         {message.fileUrl && (
