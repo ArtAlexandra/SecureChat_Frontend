@@ -10,6 +10,9 @@ export const ROUTES = {
     settings: {
         theme: '/settings/theme',
         profile: '/settings/profile',
-        createGroup: '/settings/create-group'
+        createGroup: '/settings/create-group',
+        changeGroup: {
+            generatePath: (id: string | number) => `/settings/change-group/?group=${id}`,
+        },
     }
 };

@@ -1,29 +1,28 @@
 import type { TChat } from "@/shared/config/ChatType";
+import { IChangeInfoChat } from "@/shared/config/TInfoChat";
 import axios from "axios";
 
+
+
 interface ICreateChatProps {
-    participantIds: string[];
-    isGroup?: boolean;
-    groupName?: string;
+    data: IChangeInfoChat;
     file?: File | null;
 };
 
-export const createChat = ({ participantIds, isGroup = false, groupName, file = null }: ICreateChatProps): Promise<TChat> => {
+export const changeChatById = ({ data, file = null}: ICreateChatProps): Promise<TChat> => {
     const formData = new FormData();
     
-    participantIds.forEach(id => {
+    data.participants.forEach(id => {
         formData.append('participantIds[]', id);
     });
     
-    formData.append('isGroup', String(isGroup));
-    
-    if (groupName) {
-        formData.append('groupName', groupName);
+    if (data.title) {
+        formData.append('title', data.title);
     }
 
     if(file) formData.append('file', file);
     
-    return axios.post('/chats/create-chat', formData, {
+    return axios.patch(`/chats/chat-by-id/${data.id}`, formData, {
         headers: {
             'Authorization': localStorage.getItem('securechat_token'),
         }

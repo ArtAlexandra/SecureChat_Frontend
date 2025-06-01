@@ -16,14 +16,15 @@ function FormCreateGroup() {
 
     const handleCreateChat = async () => {
         const usersId: string[] = selectedUsers.map(user => user._id);
-        await createChat({ participantIds: usersId, isGroup: true, groupName: nameChat });
+        console.log(usersId)
+        await createChat({ participantIds: usersId, isGroup: true, groupName: nameChat, file });
     };
     return (
         <div className={style.formCreate}>
             <ModalListUsers isOpen={showModalListUsers} onClose={() => setShowModalListUsers(false)} onSelect={(users) => setSelectedUsers(users)} />
             <div>
-                <Input placeholder="Название группы" label="Название группы" value={nameChat} onChange={(e) => setNameChat(e.target.value)} />
-                <Input placeholder="Через сколько будут удаляться сообщения?" label="Через сколько будут удаляться сообщения?" />
+                <p>Название группы</p>
+                <Input placeholder="Название группы" value={nameChat} onChange={(e) => setNameChat(e.target.value)} />
                 <p>Загрузите фото чата</p>
                 <Upload onChange={(file: File | null) => setFile(file)} text="файл" value={file} />
                 <Button onClick={() => setShowModalListUsers(true)}>Добавить участников</Button>

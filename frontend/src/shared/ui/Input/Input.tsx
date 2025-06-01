@@ -23,7 +23,7 @@ interface IInputProps {
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-function Input({ type = 'text', className, placeholder, autoComplete, disabled, value, name, defaultValue, caption, readOnly, onChange, onBlur }: IInputProps) {
+function Input({ type = 'text', className, placeholder, label, autoComplete, disabled, value, name, defaultValue, caption, readOnly, onChange, onBlur }: IInputProps) {
     const autoCapitalize = type === 'email' ? 'off' : 'none';
     const inputId = useId();
     const inputFieldClassName = clsx(style.input__field, {
@@ -33,7 +33,7 @@ function Input({ type = 'text', className, placeholder, autoComplete, disabled, 
 
     return (
         <div className={clsx(style.input, className)}>
-
+            {label && <p>{label}</p>}
             <div className={style.input__fieldContainer}>
                 <input
                     id={inputId}

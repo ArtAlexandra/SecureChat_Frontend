@@ -13,6 +13,8 @@ import Button from "@/shared/ui/Button";
 import { getMe } from "@/shared/api/user";
 import { TInfoChat } from "@/shared/config/TInfoChat";
 import { bigIntArrayToString, createUniqueKey, speckBlocksToString, SpeckCipher, stringToBigIntArray, stringToSpeckBlocks } from "@/entities/Speck";
+import { useRouter } from "next/navigation";
+import { ROUTES } from "@/shared/config/Routes";
 
 interface ISelectedUseProps {
     chatId: string;
@@ -27,6 +29,7 @@ function SelectedUser({ chatId, onUpdateList }: ISelectedUseProps) {
     const [showToolsMessage, setShowToolsMessage] = useState<boolean>(false);
     const [messageId, setMessageId] = useState<string>('');
     const [infoChat, setInfoChat] = useState<TInfoChat>();
+    const router = useRouter();
 
     const encryptText = (text: string): string => {
         if (!speck) return '';
@@ -107,7 +110,7 @@ function SelectedUser({ chatId, onUpdateList }: ISelectedUseProps) {
                 createdKey = createUniqueKey(data.nik, niks.join(','));
             }
             else if (typeof chat.participants === 'object' && 'nik' in chat.participants) {
-                createdKey = createUniqueKey(data.nik, chat.participants.nik);
+                createdKey = createUniqueKey(data.nik, chat.participants[0]);
             }
             setSpeck(new SpeckCipher(createdKey))
         };
@@ -137,11 +140,16 @@ function SelectedUser({ chatId, onUpdateList }: ISelectedUseProps) {
         loadMessages();
     };
 
+    const handlePushChangeGroup = () => {
+        if(!infoChat?._id) return;
+        router.push(ROUTES.settings.changeGroup.generatePath(infoChat?._id))
+    };
+
     return (
         <div className={style.selected}>
             <div className={style.selected__header}>
                 {infoChat && <Image src={infoChat?.logo || '/avatarUsers/defaultLogo.jpg'} loader={({ src }) => src} width={50} height={50} alt={`avatar_${infoChat?.title}`} />}
-                <p>{infoChat?.title}</p>
+                <p className="cursor-pointer" onClick={handlePushChangeGroup}>{infoChat?.title}</p>
                 <Button color="error" onClick={handleDeleteChat} className="absolute right-80">Удалить чат</Button>
             </div>
 

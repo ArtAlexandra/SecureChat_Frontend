@@ -39,12 +39,12 @@ function Messages({ chats, onSelect, activeId }: IMessagesProps) {
                         listChats.map((chat, index) => {
                             return (
                                 <div key={`user_${index}`} className={clsx(style.userList__item, { [style.userList__item_active]: activeId === chat.interlocutor?._id })} onClick={() => handleSelectChat(chat)}>
-                                    <Image src={chat.interlocutor?.image || '/avatarUsers/defaultLogo.jpg'} loader={({ src }) => src} width={50} height={50} alt={`avatar_${chat.interlocutor?.nik}`} />
-                                    {chat?.isGroup ? 
-                                    <span className={style.userList__item__nik}>{chat?.groupName}</span>
-                                    :  <span className={style.userList__item__nik}>{chat?.interlocutor?.nik}</span>
-                                }
-                                    
+                                    <Image src={chat?.fileUrl || chat.interlocutor?.image || '/avatarUsers/defaultLogo.jpg'} loader={({ src }) => src} width={50} height={50} alt={`avatar_${chat.interlocutor?.nik}`} />
+                                    {chat?.isGroup ?
+                                        <span className={style.userList__item__nik}>{chat?.groupName}</span>
+                                        : <span className={style.userList__item__nik}>{chat?.interlocutor?.nik}</span>
+                                    }
+
                                     {chat.unreadCount > 0 &&
                                         <span className={style.userList__item__badge}>{chat.unreadCount}</span>
                                     }

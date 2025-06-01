@@ -8,4 +8,5 @@ export { getUnreadChatsCount } from './getUnreadChatsCount';
 export { deleteMessage } from './deleteMessage';
 export { deleteChat } from './deleteChat';
 export { getChatById } from './getChatById';
+export { changeChatById } from './changeChatById';
 

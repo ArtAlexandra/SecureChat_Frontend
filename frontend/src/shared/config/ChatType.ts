@@ -20,4 +20,5 @@ export type TChat = {
     __v?: number;
     interlocutor: TPopulatedUser;
     unreadCount: number;
+    fileUrl?: string;
 };

@@ -11,10 +11,12 @@ interface IUploadProps {
     text?: string;
     accept?: string;
     value: File | null;
+    label?: string;
+
     onChange: (file: File | null, fileList?: File[]) => void;
 };
 
-function Upload({ text, onChange, accept = DEFAULT_ACCEPT, value }: IUploadProps) {
+function Upload({ text, onChange, accept = DEFAULT_ACCEPT, value, label }: IUploadProps) {
     const textInButton = text || 'Выбрать';
     const [file, setFile] = useState<File | null>(null);
 
@@ -39,6 +41,7 @@ function Upload({ text, onChange, accept = DEFAULT_ACCEPT, value }: IUploadProps
 
     return (
         <div className="w-[300px]">
+            {label && <p>{label}</p>}
             <UploadAnt onChange={handleChange} accept={accept} maxCount={1}
                 customRequest={({ onSuccess }) => {
                     if (onSuccess) onSuccess('ok');

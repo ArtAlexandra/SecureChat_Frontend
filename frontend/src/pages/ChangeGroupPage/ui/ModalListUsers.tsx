@@ -13,12 +13,18 @@ interface IModalListUsersProps {
 };
 
 function ModalListUsers({ selectedUsers, isOpen, onClose, onSelect }: IModalListUsersProps) {
-    const [users, setUsers] = useState<TUser[]>(selectedUsers || []);
-    const [selectedUsersList, setSelectedUsersList] = useState<TUser[]>([]);
+    const [users, setUsers] = useState<TUser[]>([]);
+    const [selectedUsersList, setSelectedUsersList] = useState<TUser[]>(selectedUsers || []);
 
     useEffect(() => {
         const loadData = async () => {
-            const data = await getAllUsers();
+            let data = await getAllUsers();
+            if (selectedUsers) {
+                data = data.filter(item =>
+                    !selectedUsers.some(selected => selected._id === item._id)
+                )
+            }
+
             setUsers(data);
         };
         loadData();
