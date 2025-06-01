@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { ConfigProvider } from 'antd'
 import 'antd/dist/reset.css'
 import '@/shared/styles/globals.scss';
+import ThemeProvider from '@/shared/providers/ThemeProvider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -30,7 +31,9 @@ export default function RootLayout({ children }: IMainPageLayoutProps) {
     <html lang="en">
       <body className={clsx(geistSans.variable, geistMono.variable)}>
         <ConfigProvider>
+          <ThemeProvider>
           {children}
+          </ThemeProvider>
         </ConfigProvider>
       </body>
     </html>

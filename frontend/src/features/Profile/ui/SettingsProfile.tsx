@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { getMe } from "@/shared/api/user";
 import { TUser } from "@/shared/config/TUser";
 import UserInfo from "./UserInfo";
+import { ROUTES } from "@/shared/config/Routes";
 
 
 function SettingsProfile() {
@@ -39,7 +40,7 @@ function SettingsProfile() {
             <Settings>
                 <div className={style.settingsProfile__main}>
                     <div onClick={handleGetUser} className={style.settingsProfile__item}>Мой профиль</div>
-                    <div onClick={() => handleSelectItem("/")} className={style.settingsProfile__item}>Оформление</div>
+                    <div onClick={() => handleSelectItem(ROUTES.settings.theme)} className={style.settingsProfile__item}>Оформление</div>
                     <Button color="error" onClick={() => setShowModalExit(true)} className={style.settingsProfile__button}>Выход</Button>
                 </div>
             </Settings>

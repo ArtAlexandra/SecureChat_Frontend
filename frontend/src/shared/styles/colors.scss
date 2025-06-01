@@ -44,4 +44,21 @@
     --color-input-helper-text: var(--color-gray-400);
     --color-input-hover-background: var(--color-gray-100);
     --color-input-hover-text: var(--color-blue-500);
+
+    /* Theme */
+    --color-theme-pink: #FCDCF1;
+    --color-theme-green: #78dd7d;
+    --color-theme-blue: #85c3ec;
+}
+
+[data-theme="pink"] {
+    --color-pinkLight: #FCDCF1;
+}
+
+[data-theme="green"] {
+    --color-pinkLight: #78dd7d;
+}
+
+[data-theme="blue"] {
+    --color-pinkLight: #85c3ec;
 }
