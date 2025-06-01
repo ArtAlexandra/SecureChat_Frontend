@@ -22,12 +22,18 @@ function FormCreateGroup() {
     return (
         <div className={style.formCreate}>
             <ModalListUsers isOpen={showModalListUsers} onClose={() => setShowModalListUsers(false)} onSelect={(users) => setSelectedUsers(users)} />
-            <div>
-                <p>Название группы</p>
-                <Input placeholder="Название группы" value={nameChat} onChange={(e) => setNameChat(e.target.value)} />
-                <p>Загрузите фото чата</p>
-                <Upload onChange={(file: File | null) => setFile(file)} text="файл" value={file} />
+            <div className={style.formCreate__form}>
+                <Input placeholder="Название группы" label="Название группы" value={nameChat} onChange={(e) => setNameChat(e.target.value)} />
+                <div>
+                    <p>Загрузите фото чата</p>
+                    <Upload onChange={(file: File | null) => setFile(file)} text="файл" value={file} />
+                </div>
                 <Button onClick={() => setShowModalListUsers(true)}>Добавить участников</Button>
+                {selectedUsers?.map((user, index) => {
+                    return (
+                        <div key={index} className="mb-4">{user.name} ({user.nik}) </div>
+                    )
+                })}
                 <Button onClick={handleCreateChat}>Создать</Button>
             </div>
         </div>

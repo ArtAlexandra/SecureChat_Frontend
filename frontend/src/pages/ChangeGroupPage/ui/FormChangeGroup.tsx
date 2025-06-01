@@ -39,8 +39,8 @@ function FormChangeGroup({ chatInfo, onSave }: IFormCreateGroupProps) {
         <div className={style.formChange}>
             <ModalListUsers isOpen={showModalListUsers} onClose={() => setShowModalListUsers(false)} onSelect={setUsers} selectedUsers={users} />
             <div className={style.formChange__form}>
-                <Input value={data.title} className="mb-4" placeholder="Название группы" label="Название группы" onChange={handleChangeTitle} />
-                <div className="mb-4">
+                <Input value={data.title} placeholder="Название группы" label="Название группы" onChange={handleChangeTitle} />
+                <div>
                     <p>Лого</p>
                     {isChangeLogo ?
                         <Upload value={file} onChange={(file: File | null) => setFile(file)} label="Выберите картинку" />
@@ -52,13 +52,11 @@ function FormChangeGroup({ chatInfo, onSave }: IFormCreateGroupProps) {
                     <p className="mr-4">Список участников</p>
                     <Button onClick={() => setShowModalListUsers(true)}>Добавить нового участника</Button>
                 </div>
-
                 {users?.map((user, index) => {
                     return (
                         <div key={index} className="mb-4">{user.name} ({user.nik}) </div>
                     )
                 })}
-
                 <Button color="basic" onClick={handleSave}>Сохранить изменения</Button>
             </div>
         </div>
