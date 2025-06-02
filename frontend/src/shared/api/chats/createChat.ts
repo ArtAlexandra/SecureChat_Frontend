@@ -15,11 +15,9 @@ export const createChat = ({ participantIds, isGroup = false, groupName, file = 
         formData.append('participantIds[]', id);
     });
     
-    formData.append('isGroup', String(isGroup));
+    if(isGroup) formData.append('isGroup', 'true');
     
-    if (groupName) {
-        formData.append('groupName', groupName);
-    }
+    if (groupName)  formData.append('groupName', groupName);
 
     if(file) formData.append('file', file);
     
