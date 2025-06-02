@@ -5,11 +5,11 @@ import { IChangeInfoChat, TInfoChat } from '@/shared/config/TInfoChat';
 import { TUser } from '@/shared/config/TUser';
 import Settings from '@/widgets/Settings';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import Image from 'next/image';
 import FormChangeGroup from './FormChangeGroup';
 
-function ChangeGroupPage() {
+function ChangeGroupContent() {
     const searchParams = useSearchParams();
     const group = searchParams?.get('group');
     const [user, setUser] = useState<TUser>();
@@ -45,6 +45,14 @@ function ChangeGroupPage() {
             </Settings>
             {infoChat && <FormChangeGroup chatInfo={infoChat} onSave={handleChangeChatInfo} />}
         </div>
+    );
+}
+
+function ChangeGroupPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <ChangeGroupContent />
+        </Suspense>
     );
 }
 
