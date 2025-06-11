@@ -1,0 +1,9 @@
+.createGroupPage {
+    display: flex;
+}
+
+@media (max-width: 768px) {
+    .createGroupPage {
+        display: block;
+    }
+}

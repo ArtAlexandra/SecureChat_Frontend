@@ -2,7 +2,6 @@ $width: calc(100vw - 300px);
 
 .selected {
     width: $width;
-    background-color: var(--color-pinkLight);
     margin-bottom: 60px;
 
     &__header {
@@ -19,6 +18,7 @@ $width: calc(100vw - 300px);
 
     &__messagesContainer {
         margin-top: 70px;
+        width: 100vw;
     }
 
     &__message {
@@ -38,6 +38,16 @@ $width: calc(100vw - 300px);
             margin-top: 5px;
             font-size: 13px;
             color: var(--color-gray);
+        }
+    }
+}
+
+
+@media (min-width: 768px) {
+    .selected {
+        &__messagesContainer {
+            margin-top: 70px;
+            width: 100%;
         }
     }
 }

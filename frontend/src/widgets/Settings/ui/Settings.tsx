@@ -5,6 +5,9 @@ import style from "./Settings.module.scss";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/shared/config/Routes";
 import { useUnread } from "@/shared/contexts/UnreadContext";
+import { useState, useEffect } from "react";
+import { MenuOutlined } from "@ant-design/icons";
+import clsx from "clsx";
 
 interface ISettingsProps {
     children: React.ReactNode;
@@ -13,11 +16,46 @@ interface ISettingsProps {
 function Settings({ children }: ISettingsProps) {
     const router = useRouter();
     const { unreadCount } = useUnread();
+    const [isMobile, setIsMobile] = useState(false);
+    const [isPanelOpen, setIsPanelOpen] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+
+        handleResize(); // Проверяем при загрузке
+        window.addEventListener('resize', handleResize);
+        
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    const togglePanel = () => {
+        setIsPanelOpen(!isPanelOpen);
+    };
 
     return (
         <div className={style.settings}>
-            {children}
+            {/* Кнопка меню для мобильных */}
+            {isMobile && (
+                <button 
+                    onClick={togglePanel}
+                    className={style.settings__menuButton}
+                >
+                    <MenuOutlined />
+                </button>
+            )}
 
+            {/* Левая панель */}
+            <div className={clsx(
+                style.settings__leftPanel,
+                isMobile && style.settings__leftPanel_mobile,
+                isMobile && isPanelOpen && style.settings__leftPanel_open
+            )}>
+                {children}
+            </div>
+
+            {/* Иконки внизу */}
             <div className={style.settings__icons}>
                 <Image
                     src="/settings/user.svg"

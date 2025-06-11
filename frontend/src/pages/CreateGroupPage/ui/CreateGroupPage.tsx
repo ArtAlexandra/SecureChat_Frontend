@@ -6,6 +6,7 @@ import FormCreateGroup from './FormCreateGroup';
 import { useEffect, useState } from "react";
 import { TUser } from "@/shared/config/TUser";
 import { getMe } from "@/shared/api/user";
+import style from './CreateGroupPage.module.scss';
 
 function CreateGroupPage() {
     const [user, setUser] = useState<TUser>();
@@ -18,12 +19,10 @@ function CreateGroupPage() {
         loadData();
     }, [])
     return (
-        <div className="flex">
+        <div className={style.createGroupPage}>
             <Settings>
-                <div className="flex">
                     {user && <Image src={user.image || '/avatarUsers/defaultLogo.jpg'} loader={({ src }) => src} width={50} height={50} alt={`avatar_${user.nik}`} />}
                     {user && <p>{user.name} ({user.nik})</p>}
-                </div>
             </Settings>
             <FormCreateGroup />
         </div>

@@ -1,15 +1,31 @@
 .settingsProfile {
-
-
     display: flex;
-    background-color: var(--color-pinkLight);
-    min-height: 100vh;
-
     &__main {
         width: 100%;
         padding: 0 20px;
         padding-top: 100px;
         min-height: 100vh;
+
+        &-item {
+            cursor: pointer;
+            height: fit-content;
+            justify-content: center;
+            margin-bottom: 20px;
+            justify-content: center;
+            text-align: center;
+
+            &:hover {
+                color: var(--color-blue);
+            }
+
+            &_active {
+                color: var(--color-blueDark);
+            }
+        }
+
+        &-button {
+            width: 100%;
+        }
     }
 
     &__item {
@@ -33,3 +49,9 @@
         width: 100%;
     }
 }
+
+@media (max-width: 768px) {
+    .settingsProfile {
+        display: block;
+    }
+  }

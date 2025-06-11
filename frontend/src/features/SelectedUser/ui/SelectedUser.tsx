@@ -150,7 +150,7 @@ function SelectedUser({ chatId, onUpdateList }: ISelectedUseProps) {
             <div className={style.selected__header}>
                 {infoChat && <Image src={infoChat?.logo || '/avatarUsers/defaultLogo.jpg'} loader={({ src }) => src} width={50} height={50} alt={`avatar_${infoChat?.title}`} />}
                 <p className="cursor-pointer" onClick={handlePushChangeGroup}>{infoChat?.title}</p>
-                <Button color="error" onClick={handleDeleteChat} className="absolute right-80">Удалить чат</Button>
+                <Button color="error" onClick={handleDeleteChat} className="absolute right-4 sm:right-20 md:right-40 lg:right-60 xl:right-80">Удалить чат</Button>
             </div>
 
             <div className={style.selected__messagesContainer}>

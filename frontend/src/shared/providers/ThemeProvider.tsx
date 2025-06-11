@@ -3,6 +3,8 @@
 import { useEffect } from 'react';
 import useTheme from './useTheme';
 
+import style from './ThemeProvider.module.scss'; 
+
 interface IThemeProviderProps {
     children: React.ReactNode;
 };
@@ -14,5 +16,5 @@ export default function ThemeProvider({ children }: IThemeProviderProps) {
         document.documentElement.setAttribute('data-theme', theme);
     }, [theme]);
 
-    return <>{children}</>;
+    return <div className={style.root}>{children}</div>;
 }
